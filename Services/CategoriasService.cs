@@ -35,7 +35,10 @@ namespace Services
 
         public TbCategoria save(TbCategoria entity)
         {
-            throw new NotImplementedException();
+            //aplicar regla de negocio
+
+            return CategoriaData.save(entity);
+
         }
 
         public TbCategoria update(TbCategoria entity)

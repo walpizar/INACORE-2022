@@ -43,7 +43,19 @@ namespace Data
 
         public TbCategoria save(TbCategoria entity)
         {
-            throw new NotImplementedException();
+            try
+            {
+                Context.TbCategorias.Add(entity);
+                Context.SaveChanges();
+                return entity;
+            }
+            catch (Exception ex)
+            {
+
+                throw;
+            }
+
+
         }
 
         public TbCategoria update(TbCategoria entity)

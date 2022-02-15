@@ -15,6 +15,10 @@ namespace InaApp.Middleware
             CreateMap<ClientesVM, clsClientes>();
             CreateMap<clsClientes, ClientesVM>();
 
+            CreateMap<TbCategoria, CategoriasVM>();
+           CreateMap<CategoriasVM, TbCategoria>();
+
+          
 
 
         }
