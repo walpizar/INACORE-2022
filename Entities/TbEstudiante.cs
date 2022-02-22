@@ -9,11 +9,14 @@ namespace Entities
     {
         public int Id { get; set; }
         public string Carnet { get; set; }
-        public int? Grupo { get; set; }
-        public int? IdPersona { get; set; }
-        public string Horario { get; set; }
-        public bool? Estado { get; set; }
+        public int IdGrupo { get; set; }
+        public int IdPersona { get; set; }
+        public int IdHorario { get; set; }
+        public bool Estado { get; set; }
 
+        public virtual TbGrupo IdGrupoNavigation { get; set; }
+        public virtual TbHorario IdHorarioNavigation { get; set; }
         public virtual TbPersona IdPersonaNavigation { get; set; }
+
     }
 }

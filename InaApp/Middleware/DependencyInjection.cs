@@ -20,19 +20,26 @@ namespace InaApp.Middleware
             services.AddAutoMapper(typeof(Startup));
 
 
-            //dependicias de servicios
-            services.AddSingleton<IServices<clsClientes>, ClientesService>();
+            //dependencias de servicios
+            services.AddScoped<IServices<clsClientes>, ClientesService>();
             services.AddScoped<IServices<TbCategoria>, CategoriasService>();
+            services.AddScoped<IPersonaService, PersonasService>();
+            services.AddScoped<IServices<TbGrupo>, GruposService>();
+            services.AddScoped<IServices<TbHorario>, HorariosService>();
+            services.AddScoped<IServices<TbEstudiante>, EstudiantesService>();
 
             //dependencias de datos
-            services.AddSingleton<IData<clsClientes>, ClientesData>();
+            services.AddScoped<IData<clsClientes>, ClientesData>();
             services.AddScoped<IData<TbCategoria>, CategoriasData>();
+            services.AddScoped<IPersonaData, PersonaData>();
+            services.AddScoped<IData<TbGrupo>, GruposData>();
+            services.AddScoped<IData<TbHorario>, HorariosData>();
+            services.AddScoped<IData<TbEstudiante>, EstudiantesData>();
 
             //retornas las inyecciones agragadas al services
             return services;
 
         }
-
 
     }
 }

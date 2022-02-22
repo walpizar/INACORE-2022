@@ -20,6 +20,8 @@ namespace Data
 
         public virtual DbSet<TbCategoria> TbCategorias { get; set; }
         public virtual DbSet<TbEstudiante> TbEstudiantes { get; set; }
+        public virtual DbSet<TbGrupo> TbGrupos { get; set; }
+        public virtual DbSet<TbHorario> TbHorarios { get; set; }
         public virtual DbSet<TbImpuesto> TbImpuestos { get; set; }
         public virtual DbSet<TbPersona> TbPersonas { get; set; }
         public virtual DbSet<TbProducto> TbProductos { get; set; }
@@ -30,7 +32,7 @@ namespace Data
             if (!optionsBuilder.IsConfigured)
             {
 #warning To protect potentially sensitive information in your connection string, you should move it out of source code. You can avoid scaffolding the connection string by using the Name= syntax to read it from configuration - see https://go.microsoft.com/fwlink/?linkid=2131148. For more guidance on storing connection strings, see http://go.microsoft.com/fwlink/?LinkId=723263.
-                optionsBuilder.UseSqlServer("Server=.\\sqlexpress;Database=dbPOO;Trusted_Connection=True;");
+                optionsBuilder.UseSqlServer("Server=localhost\\sqlexpress;Database=dbPOO;Trusted_Connection=True;");
             }
         }
 
@@ -57,25 +59,66 @@ namespace Data
                 entity.Property(e => e.Id).HasColumnName("id");
 
                 entity.Property(e => e.Carnet)
+                    .IsRequired()
                     .HasMaxLength(10)
                     .HasColumnName("carnet")
                     .IsFixedLength(true);
 
                 entity.Property(e => e.Estado).HasColumnName("estado");
 
-                entity.Property(e => e.Grupo).HasColumnName("grupo");
+                entity.Property(e => e.IdGrupo).HasColumnName("idGrupo");
 
-                entity.Property(e => e.Horario)
-                    .HasMaxLength(500)
-                    .HasColumnName("horario")
-                    .IsFixedLength(true);
+                entity.Property(e => e.IdHorario).HasColumnName("idHorario");
 
                 entity.Property(e => e.IdPersona).HasColumnName("idPersona");
+
+                entity.HasOne(d => d.IdGrupoNavigation)
+                    .WithMany(p => p.TbEstudiantes)
+                    .HasForeignKey(d => d.IdGrupo)
+                    .OnDelete(DeleteBehavior.ClientSetNull)
+                    .HasConstraintName("FK_tbEstudiantes_tbGrupos");
+
+                entity.HasOne(d => d.IdHorarioNavigation)
+                    .WithMany(p => p.TbEstudiantes)
+                    .HasForeignKey(d => d.IdHorario)
+                    .OnDelete(DeleteBehavior.ClientSetNull)
+                    .HasConstraintName("FK_tbEstudiantes_tbHorarios");
 
                 entity.HasOne(d => d.IdPersonaNavigation)
                     .WithMany(p => p.TbEstudiantes)
                     .HasForeignKey(d => d.IdPersona)
+                    .OnDelete(DeleteBehavior.ClientSetNull)
                     .HasConstraintName("FK_tbEstudiantes_tbPersona");
+            });
+
+            modelBuilder.Entity<TbGrupo>(entity =>
+            {
+                entity.ToTable("tbGrupos");
+
+                entity.Property(e => e.Id).HasColumnName("id");
+
+                entity.Property(e => e.Estado).HasColumnName("estado");
+
+                entity.Property(e => e.Nombre)
+                    .IsRequired()
+                    .HasMaxLength(10)
+                    .HasColumnName("nombre")
+                    .IsFixedLength(true);
+            });
+
+            modelBuilder.Entity<TbHorario>(entity =>
+            {
+                entity.ToTable("tbHorarios");
+
+                entity.Property(e => e.Id).HasColumnName("id");
+
+                entity.Property(e => e.Estado).HasColumnName("estado");
+
+                entity.Property(e => e.Horario)
+                    .IsRequired()
+                    .HasMaxLength(50)
+                    .HasColumnName("horario")
+                    .IsFixedLength(true);
             });
 
             modelBuilder.Entity<TbImpuesto>(entity =>

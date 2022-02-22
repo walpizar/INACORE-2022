@@ -27,7 +27,11 @@
         "frameworks": {
           "netcoreapp3.1": {
             "targetAlias": "netcoreapp3.1",
-            "projectReferences": {}
+            "projectReferences": {
+              "C:\\Users\\walpi\\source\\repos\\InaApp\\Entities\\Entities.csproj": {
+                "projectPath": "C:\\Users\\walpi\\source\\repos\\InaApp\\Entities\\Entities.csproj"
+              }
+            }
           }
         },
         "warningProperties": {

@@ -12,13 +12,26 @@ namespace InaApp.Middleware
     {
         public MappingProfiles()
         {
+
             CreateMap<ClientesVM, clsClientes>();
             CreateMap<clsClientes, ClientesVM>();
 
-            CreateMap<TbCategoria, CategoriasVM>();
-           CreateMap<CategoriasVM, TbCategoria>();
 
-          
+            CreateMap<TbEstudiante, EstudiantesVM>();
+            CreateMap<EstudiantesVM, TbEstudiante>();
+
+            CreateMap<TbPersona, PersonasVM>();
+            CreateMap<PersonasVM, TbPersona>();
+
+
+            CreateMap<TbCategoria, CategoriasVM>();
+            CreateMap<CategoriasVM, TbCategoria>();
+
+            CreateMap<TbGrupo, GrupoVM>();
+            CreateMap<GrupoVM, TbGrupo>();
+
+            CreateMap<TbHorario, HorariosVM>();
+            CreateMap<HorariosVM, TbHorario>();
 
 
         }
