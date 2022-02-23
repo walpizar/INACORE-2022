@@ -22,7 +22,7 @@ namespace Services
 
         public bool delete(TbEstudiante entity)
         {
-            throw new NotImplementedException();
+            return EstudianteData.delete(entity);
         }
 
         public IEnumerable<TbEstudiante> getAll()
@@ -32,7 +32,7 @@ namespace Services
 
         public TbEstudiante getById(int id)
         {
-            throw new NotImplementedException();
+            return EstudianteData.getById(id);
         }
 
         public TbEstudiante save(TbEstudiante entity)
@@ -77,7 +77,7 @@ namespace Services
         {
 
             //TAREA
-            throw new NotImplementedException();
+            return EstudianteData.update(entity);
         }
     }
 }

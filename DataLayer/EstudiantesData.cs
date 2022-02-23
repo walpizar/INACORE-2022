@@ -21,7 +21,17 @@ namespace Data
 
         public bool delete(TbEstudiante entity)
         {
-            throw new NotImplementedException();
+            try
+            {
+                Context.Update(entity);
+                Context.SaveChanges();
+                return true;
+            }
+            catch (Exception ex)
+            {
+
+                throw;
+            }
         }
 
         public IEnumerable<TbEstudiante> getAll()
@@ -29,7 +39,8 @@ namespace Data
             try
             {
                 //falta algo
-                return Context.TbEstudiantes.Include("IdPersonaNavigation").Include("IdGrupoNavigation").Include("IdHorarioNavigation").Where(x => x.Estado == true).ToList();
+                return Context.TbEstudiantes.Include("IdPersonaNavigation").Include("IdGrupoNavigation")
+                    .Include("IdHorarioNavigation").Where(x => x.Estado == true).ToList();
 
 
             }
@@ -42,7 +53,16 @@ namespace Data
 
         public TbEstudiante getById(int id)
         {
-            throw new NotImplementedException();
+            try
+            {
+                return Context.TbEstudiantes.Include("IdPersonaNavigation").Where(x => x.Id == id).SingleOrDefault();
+
+            }
+            catch (Exception ex)
+            {
+
+                throw;
+            }
         }
 
         public TbEstudiante save(TbEstudiante entity)
@@ -65,7 +85,19 @@ namespace Data
 
         public TbEstudiante update(TbEstudiante entity)
         {
-            throw new NotImplementedException();
+            try
+            {
+                //Context.Entry<TbEstudiante>(entity).State = EntityState.Modified;
+                Context.Update(entity);
+                Context.SaveChanges();
+                return entity;
+            }
+            catch (Exception ex)
+            {
+
+                throw;
+            }
+          
         }
 
        

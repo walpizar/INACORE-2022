@@ -13,6 +13,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using Newtonsoft;
+using Newtonsoft.Json;
 
 
 namespace InaApp
@@ -35,8 +36,10 @@ namespace InaApp
             services.AddControllers().AddJsonOptions(options =>
             {
                 options.JsonSerializerOptions.PropertyNamingPolicy = null;
-               // options.JsonSerializerOptions.Encoder= options.JsonSerializerOptions.Encoder()
+
                
+
+
             });
 
             //inyecciones de dependencias
