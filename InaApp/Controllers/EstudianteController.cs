@@ -82,6 +82,7 @@ namespace InaApp.Controllers
 
 
         [HttpPost]
+        [Route("post")]
         public ActionResult post([FromBody] EstudiantesVM estudianteVM)
         {
             try
@@ -91,29 +92,33 @@ namespace InaApp.Controllers
                     return BadRequest("Falta datos.");
 
                 }
+           
+
+
+                TbEstudiante estudiante = Mapper.Map<TbEstudiante>(estudianteVM);
+
 
                 //validar grupo y horarios
 
-                if (GrupoService.getById(estudianteVM.IdGrupo) == null)
+                if (GrupoService.getById(estudiante.IdGrupo) == null)
                 {
                     return BadRequest("El grupo no existe");
                 }
 
-                if (HorariosService.getById(estudianteVM.IdHorario) == null)
+                if (HorariosService.getById(estudiante.IdHorario) == null)
                 {
                     return BadRequest("El horario no existe");
                 }
 
 
 
-                TbEstudiante estudiante = Mapper.Map<TbEstudiante>(estudianteVM);
                 estudiante.Estado = true;
 
                 //mandar a guardar
 
                 estudiante = EstudianteService.save(estudiante);
 
-                return Ok(estudiante);
+                return Ok();
             }
             catch (EntityExistException ex)
             {
@@ -145,18 +150,7 @@ namespace InaApp.Controllers
 
                 }
 
-                //validar grupo y horarios
-
-                if (GrupoService.getById(estudianteVM.IdGrupo) == null)
-                {
-                    return BadRequest("El grupo no existe");
-                }
-
-                if (HorariosService.getById(estudianteVM.IdHorario) == null)
-                {
-                    return BadRequest("El horario no existe");
-                }
-
+                
 
                 TbEstudiante estudiante = EstudianteService.getById(id);
 
@@ -174,6 +168,17 @@ namespace InaApp.Controllers
                 estudiante.IdHorario = estudianteVM.IdHorario;
                 estudiante.IdGrupo = estudianteVM.IdGrupo;
 
+                //validar grupo y horarios
+
+                if (GrupoService.getById(estudiante.IdGrupo) == null)
+                {
+                    return BadRequest("El grupo no existe");
+                }
+
+                if (HorariosService.getById(estudiante.IdHorario) == null)
+                {
+                    return BadRequest("El horario no existe");
+                }
 
 
                 estudiante = EstudianteService.update(estudiante);
@@ -190,40 +195,29 @@ namespace InaApp.Controllers
         }
 
 
-        [HttpDelete("{id}")]      
-        public ActionResult delete(int id)
+        [HttpDelete("{Id}")]      
+        public ActionResult delete(int Id)
         {
             try
             {
-                if (id == 0)
+                if (Id == 0)
                 {
                     return BadRequest("Falta ID.");
                 }
 
-                var estudiante = EstudianteService.getById(id);
+                var estudiante = EstudianteService.getById(Id);
 
                 if (estudiante == null)
                 {
-                    return BadRequest(string.Format("El estudiante con el ID ({0}) no existe.", id));
+                    return BadRequest(string.Format("El estudiante con el ID ({0}) no existe.", Id));
 
 
                 }
-
                 estudiante.Estado = false;
                 bool result= EstudianteService.delete(estudiante);
 
-                //if (result)
-                //{
-                
                 return Ok();
-                //}
-                //else
-                //{
-                //    return BadRequest("No se pudo eliminar");
-                //}
-
-
-                
+         
             }
             catch (Exception)
             {
@@ -233,9 +227,6 @@ namespace InaApp.Controllers
 
 
         }
-
-
-
 
         private bool validarDatos(EstudiantesVM estudianteVM)
         {

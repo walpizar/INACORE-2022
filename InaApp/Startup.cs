@@ -2,19 +2,12 @@ using Data;
 using InaApp.Middleware;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
-using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
-using Microsoft.Extensions.Logging;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
-using Newtonsoft;
 using Newtonsoft.Json;
-
+using Newtonsoft.Json.Serialization;
 
 namespace InaApp
 {
@@ -33,14 +26,34 @@ namespace InaApp
 
             services.AddDbContext<dbPOOContext>(option =>  option.UseSqlServer(Configuration.GetConnectionString("dbINA")));
 
-            services.AddControllers().AddJsonOptions(options =>
+            services.AddCors(options =>
             {
-                options.JsonSerializerOptions.PropertyNamingPolicy = null;
-
-               
-
-
+                options.AddPolicy(
+                    name: "AllowOrigin",
+                    builder => {
+                        builder.AllowAnyOrigin()
+                                .AllowAnyMethod()
+                                .AllowAnyHeader();
+                    });
             });
+
+            services.AddControllers().AddNewtonsoftJson(options =>
+            {
+                options.SerializerSettings.ReferenceLoopHandling = Newtonsoft.Json.ReferenceLoopHandling.Ignore;
+                options.SerializerSettings.NullValueHandling = NullValueHandling.Ignore;
+                options.SerializerSettings.ContractResolver= new DefaultContractResolver();
+
+            }); 
+           
+
+
+            //    services.AddControllers().AddJsonOptions(options =>
+            //    {
+            //        options.JsonSerializerOptions.PropertyNamingPolicy = null;
+            //        options.JsonSerializerOptions.Converters.Add(new IntToStringConverter());
+            //    //options.JsonSerializerOptions.NumberHandling = JsonNumberHandling.AllowReadingFromString;
+
+            //});
 
             //inyecciones de dependencias
             DependencyInjection.addDependencies(services);
@@ -54,6 +67,8 @@ namespace InaApp
             {
                 app.UseDeveloperExceptionPage();
             }
+
+            app.UseCors("AllowOrigin");
 
             app.UseRouting();
 
